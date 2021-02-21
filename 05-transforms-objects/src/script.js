@@ -99,7 +99,10 @@ mesh.rotation.y = Math.PI / 2
 
 /**
  * Euler is easy to understand but this axis order can be problematic.
- * This is why most engines and 3D software use Quaternion
+ * This is why most engines and 3D software use Quaternion.
+ *
+ * Quaternion allows to apply rotation but in a more mathematical way, and are updated when
+ * the rotation property changes.
  */
 
 /**
