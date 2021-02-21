@@ -1,6 +1,6 @@
 import './style.css'
 import * as THREE from 'three'
-import { Scene } from 'three'
+import { MaxEquation, Scene } from 'three'
 
 /**
  * Classes that are based in the Object3D object, inherit the properties:
@@ -13,6 +13,21 @@ import { Scene } from 'three'
  * Position and scale are not objects, but Vector3, which allows to
  * position things in the space, it has useful methods, like length, add, ceil and more
  * (https://threejs.org/docs/#api/en/math/Vector3)
+ *
+ * Rotation also has x, y and z properties but it's a Euler (https://threejs.org/docs/#api/en/math/Euler),
+ * it's rotate the objects from the center of it based on the property
+ *
+ * Example, the image below is one side of the mesh (cube), it will be rotated from the X in the center of
+ * the shape
+ *
+ * xxxxxxx
+ * x     x
+ * x  X  x
+ * x     x
+ * xxxxxxx
+ *
+ * Rotation and Quaternion properties are similar, both are used to rotate objects, updating rotation
+ * property, will update Quaternion.
  */
 
 // Canvas
@@ -65,12 +80,36 @@ scene.add(camera)
 // console.log(mesh.position.length()) // Length of the vector, distance of the center of the scene and the object's position
 
 /**
- * Axes helper
- * Helps to
+ * Rotation
+ *
+ * Be careful, rotating on an axis, it could change the axis order,  default is x, y and z,
+ * if so, you could get strange results:
+ *
+ * i.e: rotating PI/2 x axis, will change y axis to z axis, so rotating y axis, will looks like
+ * rotating z axis. Yeah, weird and its called gimbal lock.
+ *
+ * To solve this use the reorder method, this receives as parameter a string 'XYZ', but it can use
+ * any combination YZX, and so on.
+ *
+ */
+// mesh.rotation.x = 2
+mesh.rotation.reorder('YXZ') // Keeps the axis order after doing X rotation
+mesh.rotation.x = Math.PI / 2
+mesh.rotation.y = Math.PI / 2
+
+/**
+ * Euler is easy to understand but this axis order can be problematic.
+ * This is why most engines and 3D software use Quaternion
  */
 
-// const axesHelper = new THREE.AxesHelper(2)
-// scene.add(axesHelper)
+/**
+ * Axes helper
+ *
+ * A kind of perspective guide
+ */
+
+const axesHelper = new THREE.AxesHelper(2)
+scene.add(axesHelper)
 /**
  * Renderer
  */
