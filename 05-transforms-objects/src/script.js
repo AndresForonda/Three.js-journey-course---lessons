@@ -113,6 +113,16 @@ mesh.rotation.y = Math.PI / 2
 
 const axesHelper = new THREE.AxesHelper(2)
 scene.add(axesHelper)
+
+/**
+ * Look at
+ *
+ * Object 3D instances have a lookAt method which rotates the object so that is -z face the target provided,
+ * target must be Vector3 (like the position property)
+ */
+
+camera.lookAt(mesh.position)
+
 /**
  * Renderer
  */
